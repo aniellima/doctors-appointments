@@ -29,8 +29,11 @@
     - Verifica e instala as dependencias do componente e as instalas com comando similar.
     - Cola o codigo do componente na /app/authentication/page.tsx e realiza as importações(CRTL+.) e modificações necessarias.
     - Adiciona component 'Form' quem em conjunto com o [Zod](https://zod.dev/) proporcciona a criação de um formulario com validações.
+    - cria componentes de login e cadastro e os adiciona nas paginas de autenticação.
 
-- [] Login com e-mail e senha
+- [] Login com e-mail e senha:
+  - Utiliza biblioteca [Better Auth](https://www.better-auth.com/). Alternativas: [Auth.js](https://authjs.dev/), [NextAuth.js](https://next-auth.js.org/) ou [Clerk](https://clerk.com/)
+  - Consulta [documentação](https://www.better-auth.com/docs/installation) para instalação e configuração.
 - [] Login com Api - Google
 - [] Fundamentos do Next.js(Rotas, Paginas, Layouts)
 - [] Criação de clinica
