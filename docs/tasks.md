@@ -51,6 +51,8 @@
   - Para evitar que a sidebar seja renderizada em todas as páginas, por exemplo a pagina de login, utiliza-se o **Route Groups**.
   - Para criar um Route Group, cria-se na pasta /app um diretório envolvido de "()" e dentro dele coloca-se as rotas que fazem parte desse grupo. Por exemplo, /app/(protected)/dashboard e /app/(protected)/clinic-form.
     - **Obs.:** dentro dos parênteses o nome do Route Group é variavel, e um arquivo page.tsx criado dentro dele não será renderizado, por ele não é tratado como uma rota.
+    - Como não queremos em rotas diferentes das protegidas, então criamos um arquivo layout.tsx na pasta /app/(protected) e dentro dele colocamos o componente Sidebar. Seguir documentação do shadcn/ui para criar o componente sidebar.
+      - Atualizar /app/global.css para adicionar o estilo do sidebar.
 - [] Pagina de médicos
 - [] Criação de médicos & NextSafeActions
 - [] Listagem de médicos
