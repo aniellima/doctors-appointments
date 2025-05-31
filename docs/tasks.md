@@ -49,10 +49,19 @@
   - A sidebar é um element comum a todas as páginas(rotas) da app.
   - Ela pode ser incluída no arquivo /app/layout.tsx e ser usada em todas as páginas da app assim como foi feito com o _Toster_.
   - Para evitar que a sidebar seja renderizada em todas as páginas, por exemplo a pagina de login, utiliza-se o **Route Groups**.
-  - Para criar um Route Group, cria-se na pasta /app um diretório envolvido de "()" e dentro dele coloca-se as rotas que fazem parte desse grupo. Por exemplo, /app/(protected)/dashboard e /app/(protected)/clinic-form.
+  - Para criar um Route Groups, cria-se na pasta /app um diretório envolvido de "()" e dentro dele coloca-se as rotas que fazem parte desse grupo. Por exemplo, /app/(protected)/dashboard e /app/(protected)/clinic-form.
     - **Obs.:** dentro dos parênteses o nome do Route Group é variavel, e um arquivo page.tsx criado dentro dele não será renderizado, por ele não é tratado como uma rota.
-    - Como não queremos em rotas diferentes das protegidas, então criamos um arquivo layout.tsx na pasta /app/(protected) e dentro dele colocamos o componente Sidebar. Seguir documentação do shadcn/ui para criar o componente sidebar.
+    - Como não queremos  uma sidebar em rotas diferentes das protegidas, então criamos um arquivo layout.tsx na pasta /app/(protected) e dentro dele renderizamos o componente Sidebar. 
+    - **Obs.:**
+      - Seguir documentação do shadcn/ui para criar o componente sidebar.
       - Atualizar /app/global.css para adicionar o estilo do sidebar.
+    - Fazer com que o menu sidebar exiba os dados da clinic e do usuário autenticado(p. ex email).
+      - O AppSidebar deve receber os dados da session do usuário autenticado e os dados da clinic.
+      - A session já traz as propriedades do usuário autenticado por default.
+      - No Better Auth é possivel criar um plugin no /src/lib/auth.ts e customizar uma session com o _import_ de _customSession_ Isso possibilita extender o _schema_ da _session_ para que ele receba além dos dados do _user_ também os dados da _clinic_ já que no schema da aplicação temos a _userToClinicTable_.
+      - No arquivo /src/lib/auth-client.ts, registra esse plugin como um generic _<typeof auth>_ e importa-se o _customSessionClient_ do _better-auth/client/plugins_ com isso as propriedades adicionais da session são disponibilizadas no client e podem ser usadas no client component(AppSidebar);
+ 
+      - tenha botão de logout no footer
 - [] Pagina de médicos
 - [] Criação de médicos & NextSafeActions
 - [] Listagem de médicos
