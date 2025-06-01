@@ -70,17 +70,35 @@
   - Criar componente customizados para todas as paginas da aplicação: PageContainer, PageHeader, PageHeaderContent, PageTitle,PageDescription, PageActions.
 - [x] Proteger página de médicos(autenticação)
 - [] Criação de médicos
+
   - Usar component Dialog do shadcn/ui para exibir um formulario.
     - Formulário deve ter os campos validados pelo Zod(formSchema);
     - Formulario deve conter os campo:
     - [x] Nome
     - [x] Especialidade: deve aparecer como um select com opcões de especialidades. Usar componente select do shadcn/ui.
-    - [] Valor da consulta: usar lib react-number-format para tratar input como moeda.
-    - [] Dias de atendimento(semana)
-    - [] Horario de atendimento
+    - [x] Valor da consulta: usar lib react-number-format para tratar input como moeda.
+    - [x] Dias de atendimento(semana)
+    - [x] Horario de atendimento
   - **Obs. 1:** O Dialog deve ser exibido quando clicar no botao de adicionar medico e também quando clicar no botao de Ver detalhas.
   - **Obs. 1:** Será um mesmo formulário tanto para a criação quanto para a edição de médicos.
-  - Já que o formulário será o mesmo cria-se um componente reutilizável. Nos casos da Edição, ele deve receber os dados do médico como _prop_.
+  - Já que o formulário será o mesmo cria-se um componente reutilizável. Nos casos da Edição, ele deve receber os dados do médico como _prop_ .
+  - [] Salvar as informações no database. - [] Criar _Server Action_(rota de api) que pegará os dados do formulário e enviá-los para o database. - [] Criar um schema para a Server Action isolado. - [] Usar lib [_next-safe-action_](https://next-safe-action.dev/) que lida com as mudanças de tipo entre o form e o database(por exemplo, no form o campo de disponibilida _availableFromWeekDays_ é uma string, já no database é um integer.). - Essa lib se integra bem com o _zod_. - **Obs.:**O schema de um formulário pode ser diferente do que será persistido no database. Por isso é importante criar um schema para a Server Action. - []Fechar o dialog quando salvar o médico - Criar state para controlar o dialog como isOpen e setIsOpen no no add-doctor-button. Se a operacao retornada pelo botão for bem sucedida, então o estado do dialog deve mudar de true para false. No caso foi criada uma _prop_ do tipo interface no _upsert-doctor-form_` chamada _onSuccess()_:
+    ```typescript
+    interface UpsetDoctorFormProps {
+    onSuccess?: () => void;
+    }
+    const UpsertDoctorForm = ({ onSuccess }: UpsetDoctorFormProps) => {
+    ```
+  - Posteriormente ela foi passada para o componente que rendiza o formulário _add-doctor-button_:
+  - ```typescript
+    <UpsertDoctorForm onSuccess={() => setIsOpen(false)} />
+    ```
+
+  ```
+
+  ```
+
+- [] Listagem de méd
 - [] Listagem de médicos
 - [] Atualização de médicos
 - [] Exclusão de médicos
