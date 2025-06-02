@@ -83,13 +83,16 @@
   - **Obs. 1:** Será um mesmo formulário tanto para a criação quanto para a edição de médicos.
   - Já que o formulário será o mesmo cria-se um componente reutilizável. Nos casos da Edição, ele deve receber os dados do médico como _prop_ .
   - [] Salvar as informações no database. - [] Criar _Server Action_(rota de api) que pegará os dados do formulário e enviá-los para o database. - [] Criar um schema para a Server Action isolado. - [] Usar lib [_next-safe-action_](https://next-safe-action.dev/) que lida com as mudanças de tipo entre o form e o database(por exemplo, no form o campo de disponibilida _availableFromWeekDays_ é uma string, já no database é um integer.). - Essa lib se integra bem com o _zod_. - **Obs.:**O schema de um formulário pode ser diferente do que será persistido no database. Por isso é importante criar um schema para a Server Action. - []Fechar o dialog quando salvar o médico - Criar state para controlar o dialog como isOpen e setIsOpen no no add-doctor-button. Se a operacao retornada pelo botão for bem sucedida, então o estado do dialog deve mudar de true para false. No caso foi criada uma _prop_ do tipo interface no _upsert-doctor-form_` chamada _onSuccess()_:
+
     ```typescript
     interface UpsetDoctorFormProps {
     onSuccess?: () => void;
     }
     const UpsertDoctorForm = ({ onSuccess }: UpsetDoctorFormProps) => {
     ```
+
   - Posteriormente ela foi passada para o componente que rendiza o formulário _add-doctor-button_:
+  -
   - ```typescript
     <UpsertDoctorForm onSuccess={() => setIsOpen(false)} />
     ```
@@ -98,7 +101,8 @@
 
   ```
 
-- [] Listagem de méd
+  [] - Converter time para UTC. A action deverá receber qualquer que seja o horário fornecido pelo cliente _createAt_ ou _updateAt_ e converter para UTC. Do mesmo modo deve recuperar do banco de dados os horário de UTC e converter para o horário local do client. - Usar lib _Day.js_
+
 - [] Listagem de médicos
 - [] Atualização de médicos
 - [] Exclusão de médicos
