@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint
+echo "🔍 Running ESLint..."
+pnpm lint
+
+# Run SonarQube analysis
+echo "🔍 Running SonarQube analysis..."
+pnpm sonar:scan
