@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sonar:scan": "dotenv -- sonar-scanner"
+    "sonar:scan": "dotenv -- sonar-scanner",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -51,6 +52,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
     "eslint-plugin-simple-import-sort": "12.1.1",
+    "husky": "^9.1.7",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "0.6.11",
     "tailwindcss": "^4",
