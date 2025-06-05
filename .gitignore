@@ -48,4 +48,4 @@ next-env.d.ts
 .sonarlint/
 
 # Tools
-.windsurf/
+#.windsurf/

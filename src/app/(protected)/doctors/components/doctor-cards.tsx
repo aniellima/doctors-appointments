@@ -31,6 +31,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
     .split(" ")
     .map((name) => name[0])
     .join("");
+
   const availability = getAvailability(doctor);
 
   return (
@@ -75,6 +76,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
               availableToTime: availability.to.format("HH:mm:ss"),
             }}
             onSuccess={() => setIsOpen(false)}
+            isOpen={isOpen}
           />
         </Dialog>
       </CardFooter>
