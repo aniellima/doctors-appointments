@@ -5,7 +5,7 @@ export const upsertPatientSchema = z.object({
   name: z.string().trim().min(1, {
     message: "Nome é obrigatório.",
   }),
-  email: z.string().email({
+  email: z.string().trim().min(1).email({
     message: "Email inválido.",
   }),
   phoneNumber: z.string().trim().min(11, {

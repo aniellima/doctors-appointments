@@ -39,16 +39,18 @@ const formSchema = z.object({
   }),
   email: z
     .string()
+    .trim()
+    .min(1, {
+      message: "Email é obrigatório",
+    })
     .email({
       message: "Email inválido.",
-    })
-    .optional()
-    .or(z.literal("")),
+    }),
   phoneNumber: z.string().trim().min(11, {
     message: "Número de telefone é obrigatório.",
   }),
   gender: z.enum(["male", "female", "other"], {
-    required_error: "Sexo é obrigatório.",
+    required_error: "Gênero é obrigatório.",
   }),
 });
 
