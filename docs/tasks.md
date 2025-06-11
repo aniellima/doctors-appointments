@@ -147,6 +147,9 @@
 
 - [x] Deleção de pacientes
   - criar Server Action para deletar patient, conforme a server action de deleção de doctor
+  - importar Action para a table-action e criar deletePatientAction com useAction hook de DeletePatient
+  - criar handleDeletePatientClick para executar a action de delete com o id do patient
+  - renderizar o AlertDialog dentro de DropdownMenuItem. **Obs.:** para impedir que o click feche o dropdown adiciona-se o `onSelect={(e) => e.preventDefault()}`
 - [x] Atualização de pacientes
 - [] Criação de agendamentos
 - [] Proteger página de agendamentos(autenticação)
