@@ -133,7 +133,20 @@
   - em acessorKey colocar o nome da propriedade(coluna)
   - usar DropdownMenu para Abrir os Dialog de Editar e Deletar.
 
+  ```node
+    <Dialog>
+      <DropdownMenu>
+       ...
+      </DropdownMenu>
+      <UpsertPatientForm>
+    </Dialog>
+  ```
+
+  **Obs.**: <UpsertPatientForm> tem o estado isOpen, mas não conseguimos criar esse estado dentro de cell. Desta forma, é necessário criar um componente separado e renderizá-lo na célula.
+  .
+
 - [x] Deleção de pacientes
+  - criar Server Action para deletar patient, conforme a server action de deleção de doctor
 - [x] Atualização de pacientes
 - [] Criação de agendamentos
 - [] Proteger página de agendamentos(autenticação)

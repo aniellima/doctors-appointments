@@ -193,7 +193,6 @@ const UpsertPatientForm = ({
               </FormItem>
             )}
           />
-
           <DialogFooter>
             <Button type="submit" disabled={upsertPatientAction.isPending}>
               {upsertPatientAction.isPending
