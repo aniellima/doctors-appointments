@@ -118,7 +118,7 @@
 - [x] Pagina de pacientes
 - [x] Proteger página de pacientes(autenticação)
 - [x] Criação de pacientes
-- [] Listagem de pacientes:
+- [x] Listagem de pacientes:
 
   - Usar componente _Data Table_ do shadsn/ui
 
@@ -155,3 +155,8 @@
 - [] Proteger página de agendamentos(autenticação)
 - [] Listagem de agendamentos
 - [] Deleção de agendamentos
+
+## Atualizar dependencias
+
+- [x] Instala globalmente `pnpm install -g npm-check-updates` [documentacao](https://www.npmjs.com/package/npm-check-updates)
+- [x] Na pasta do projeto roda `npm-check-updates -i` e escolhe as bibliotecas que deseja atualizar
