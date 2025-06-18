@@ -35,7 +35,7 @@ export const upsertAppointment = actionClient
       .values({
         ...parsedInput,
         id: parsedInput.id,
-        clinic_id: session?.user.clinic?.id,
+        clinicId: session?.user.clinic?.id,
         date: appointmentDateTime,
       })
       .onConflictDoUpdate({

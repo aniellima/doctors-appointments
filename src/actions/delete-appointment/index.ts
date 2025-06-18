@@ -29,7 +29,7 @@ export const DeleteAppointment = actionClient
     if (!appointment) {
       throw new Error("Agendamento não encontrado");
     }
-    if (appointment.clinic_id !== session.user.clinic?.id)
+    if (appointment.clinicId !== session.user.clinic?.id)
       throw new Error(
         "Usuário não pertence à clínica ao qual este agendamento está vinculado."
       );
@@ -37,4 +37,5 @@ export const DeleteAppointment = actionClient
       .delete(appointmentsTable)
       .where(eq(appointmentsTable.id, parsedInput.id));
     revalidatePath("/appointments");
+    return { success: true };
   });

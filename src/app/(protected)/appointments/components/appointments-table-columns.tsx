@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 
-import { AppointmentTableActions } from "./table-actions";
+import { AppointmentTableActions } from "./appointments-table-actions";
 
 export type AppointmentWithRelations = typeof appointmentsTable.$inferSelect & {
   patient: typeof patientsTable.$inferSelect;

@@ -1,4 +1,5 @@
 "use client";
+import { useMemo } from "react";
 
 import { DataTable } from "@/components/ui/data-table";
 import { doctorsTable, patientsTable } from "@/db/schema";
@@ -6,7 +7,7 @@ import { doctorsTable, patientsTable } from "@/db/schema";
 import {
   AppointmentWithRelations,
   createAppointmentsTableColumns,
-} from "./table-columns";
+} from "./appointments-table-columns";
 
 interface AppointmentsDataTableProps {
   appointments: AppointmentWithRelations[];
@@ -19,7 +20,10 @@ export const AppointmentsDataTable = ({
   patients,
   doctors,
 }: AppointmentsDataTableProps) => {
-  const columns = createAppointmentsTableColumns({ patients, doctors });
+  const columns = useMemo(
+    () => createAppointmentsTableColumns({ patients, doctors }),
+    [patients, doctors]
+  );
 
   return <DataTable columns={columns} data={appointments} />;
 };

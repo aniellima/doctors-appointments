@@ -4,7 +4,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { DeleteAppointment } from "@/actions/delete-appointment";
+import { DeletePatient } from "@/actions/delete-patient";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,39 +26,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
+import { patientsTable } from "@/db/schema";
 
-import { UpsertAppointmentForm } from "./upsert-appointment-form";
+import UpsertPatientForm from "./upsert-patient-form";
 
-type AppointmentWithRelations = typeof appointmentsTable.$inferSelect & {
+interface PatientTableActionsProps {
   patient: typeof patientsTable.$inferSelect;
-  doctor: typeof doctorsTable.$inferSelect;
-};
-
-interface AppointmentTableActionsProps {
-  appointment: AppointmentWithRelations;
-  patients: (typeof patientsTable.$inferSelect)[];
-  doctors: (typeof doctorsTable.$inferSelect)[];
 }
 
-export const AppointmentTableActions = ({
-  appointment,
-  patients,
-  doctors,
-}: AppointmentTableActionsProps) => {
+export const PatientTableActions = ({ patient }: PatientTableActionsProps) => {
   const [upsertDialogIsOpen, setupsertDialogIsOpen] = useState(false);
+  const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
 
-  const deleteAppointmentAction = useAction(DeleteAppointment, {
+  const deletePatientAction = useAction(DeletePatient, {
     onSuccess: () => {
-      toast.success("Agendamento excluído com sucesso!");
+      toast.success("Paciente excluído com sucesso!");
+      setDeleteDialogIsOpen(false);
     },
     onError: () => {
-      toast.error("Erro ao deletar agendamento.");
+      toast.error("Erro ao deletar paciente.");
     },
   });
 
-  const handleDeleteAppointmentClick = () => {
-    deleteAppointmentAction.execute({ id: appointment.id });
+  const handleDeletePatientClick = () => {
+    deletePatientAction.execute({ id: patient.id });
   };
 
   return (
@@ -71,13 +62,16 @@ export const AppointmentTableActions = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>{appointment.patient.name}</DropdownMenuLabel>
+            <DropdownMenuLabel>{patient.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => setupsertDialogIsOpen(true)}>
               <EditIcon />
               Editar
             </DropdownMenuItem>
-            <AlertDialog>
+            <AlertDialog
+              open={deleteDialogIsOpen}
+              onOpenChange={setDeleteDialogIsOpen}
+            >
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <TrashIcon />
@@ -87,16 +81,16 @@ export const AppointmentTableActions = ({
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
-                    Tem certeza de que deseja deletar agendamento?
+                    Tem certeza de que deseja deletar paciente?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Esta ação irá deletar o agendamento permanentemente. Esta
-                    ação não pode ser desfeita.
+                    Esta ação irá deletar o paciente permanentemente. Esta ação
+                    não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteAppointmentClick}>
+                  <AlertDialogAction onClick={handleDeletePatientClick}>
                     Continuar
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -104,11 +98,9 @@ export const AppointmentTableActions = ({
             </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
-        <UpsertAppointmentForm
+        <UpsertPatientForm
           isOpen={upsertDialogIsOpen}
-          appointment={appointment}
-          patients={patients}
-          doctors={doctors}
+          patient={patient}
           onSuccess={() => setupsertDialogIsOpen(false)}
         />
       </Dialog>

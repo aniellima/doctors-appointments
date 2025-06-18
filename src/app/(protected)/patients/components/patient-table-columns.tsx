@@ -4,7 +4,7 @@ import { PatternFormat } from "react-number-format";
 
 import { patientsTable } from "@/db/schema";
 
-import { PatientTableActions } from "./table-actions";
+import { PatientTableActions } from "./patient-table-actions";
 
 type Patient = typeof patientsTable.$inferSelect;
 

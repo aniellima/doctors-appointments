@@ -35,4 +35,5 @@ export const DeletePatient = actionClient
       );
     await db.delete(patientsTable).where(eq(patientsTable.id, parsedInput.id));
     revalidatePath("/patients");
+    return { success: true };
   });

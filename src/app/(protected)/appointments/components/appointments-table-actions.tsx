@@ -4,7 +4,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { DeletePatient } from "@/actions/delete-patient";
+import { DeleteAppointment } from "@/actions/delete-appointment";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -26,28 +27,41 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { patientsTable } from "@/db/schema";
+import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 
-import UpsertPatientForm from "./upsert-patient-form";
+import { UpsertAppointmentForm } from "./upsert-appointment-form";
 
-interface PatientTableActionsProps {
+type AppointmentWithRelations = typeof appointmentsTable.$inferSelect & {
   patient: typeof patientsTable.$inferSelect;
+  doctor: typeof doctorsTable.$inferSelect;
+};
+
+interface AppointmentTableActionsProps {
+  appointment: AppointmentWithRelations;
+  patients: (typeof patientsTable.$inferSelect)[];
+  doctors: (typeof doctorsTable.$inferSelect)[];
 }
 
-export const PatientTableActions = ({ patient }: PatientTableActionsProps) => {
+export const AppointmentTableActions = ({
+  appointment,
+  patients,
+  doctors,
+}: AppointmentTableActionsProps) => {
   const [upsertDialogIsOpen, setupsertDialogIsOpen] = useState(false);
+  const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
 
-  const deletePatientAction = useAction(DeletePatient, {
+  const deleteAppointmentAction = useAction(DeleteAppointment, {
     onSuccess: () => {
-      toast.success("Paciente excluído com sucesso!");
+      toast.success("Agendamento excluído com sucesso!");
+      setDeleteDialogIsOpen(false);
     },
     onError: () => {
-      toast.error("Erro ao deletar paciente.");
+      toast.error("Erro ao deletar agendamento.");
     },
   });
 
-  const handleDeletePatientClick = () => {
-    deletePatientAction.execute({ id: patient.id });
+  const handleDeleteAppointmentClick = () => {
+    deleteAppointmentAction.execute({ id: appointment.id });
   };
 
   return (
@@ -60,13 +74,16 @@ export const PatientTableActions = ({ patient }: PatientTableActionsProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>{patient.name}</DropdownMenuLabel>
+            <DropdownMenuLabel>{appointment.patient.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => setupsertDialogIsOpen(true)}>
               <EditIcon />
               Editar
             </DropdownMenuItem>
-            <AlertDialog>
+            <AlertDialog
+              open={deleteDialogIsOpen}
+              onOpenChange={setDeleteDialogIsOpen}
+            >
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <TrashIcon />
@@ -76,16 +93,16 @@ export const PatientTableActions = ({ patient }: PatientTableActionsProps) => {
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
-                    Tem certeza de que deseja deletar paciente?
+                    Tem certeza de que deseja deletar agendamento?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Esta ação irá deletar o paciente permanentemente. Esta ação
-                    não pode ser desfeita.
+                    Esta ação irá deletar o agendamento permanentemente. Esta
+                    ação não pode ser desfeita.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeletePatientClick}>
+                  <AlertDialogAction onClick={handleDeleteAppointmentClick}>
                     Continuar
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -93,9 +110,11 @@ export const PatientTableActions = ({ patient }: PatientTableActionsProps) => {
             </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
-        <UpsertPatientForm
+        <UpsertAppointmentForm
           isOpen={upsertDialogIsOpen}
-          patient={patient}
+          appointment={appointment}
+          patients={patients}
+          doctors={doctors}
           onSuccess={() => setupsertDialogIsOpen(false)}
         />
       </Dialog>
