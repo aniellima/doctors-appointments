@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import dayjs from "dayjs";
 import { CalendarIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
@@ -83,9 +84,11 @@ export const UpsertAppointmentForm = ({
     defaultValues: {
       patientId: appointment?.patientId ?? "",
       doctorId: appointment?.doctorId ?? "",
-      appointmentPrice: 0,
+      appointmentPrice: appointment?.appointmentPriceInCents
+        ? appointment.appointmentPriceInCents / 100
+        : 0,
       date: appointment?.date ?? undefined,
-      time: "",
+      time: appointment?.date ? dayjs(appointment.date).format("HH:mm") : "",
     },
   });
 
@@ -109,15 +112,25 @@ export const UpsertAppointmentForm = ({
 
   useEffect(() => {
     if (isOpen) {
-      form.reset({
-        patientId: "",
-        doctorId: "",
-        appointmentPrice: 0,
-        date: undefined,
-        time: "",
-      });
+      if (appointment) {
+        form.reset({
+          patientId: appointment.patientId,
+          doctorId: appointment.doctorId,
+          appointmentPrice: appointment.appointmentPriceInCents / 100,
+          date: appointment.date,
+          time: dayjs(appointment.date).format("HH:mm"),
+        });
+      } else {
+        form.reset({
+          patientId: "",
+          doctorId: "",
+          appointmentPrice: 0,
+          date: undefined,
+          time: "",
+        });
+      }
     }
-  }, [isOpen, form]);
+  }, [isOpen, form, appointment]);
 
   const upsertAppointmentAction = useAction(upsertAppointment, {
     onSuccess: () => {
@@ -263,6 +276,7 @@ export const UpsertAppointmentForm = ({
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date()}
                       initialFocus
+                      locale={ptBR}
                     />
                   </PopoverContent>
                 </Popover>
@@ -316,8 +330,10 @@ export const UpsertAppointmentForm = ({
             </Button>
             <Button type="submit" disabled={upsertAppointmentAction.isPending}>
               {upsertAppointmentAction.isPending
-                ? "Criando..."
-                : "Criar Agendamento"}
+                ? "Salvando..."
+                : appointment
+                  ? "Salvar"
+                  : "Adicionar"}
             </Button>
           </DialogFooter>
         </form>

@@ -12,10 +12,11 @@ import {
   PageTitle,
 } from "@/components/ui/page-container";
 import db from "@/db";
-import { doctorsTable, patientsTable } from "@/db/schema";
+import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import { AddAppointmentButton } from "./components/add-appointment-button";
+import { AppointmentsDataTable } from "./components/appointments-data-table";
 
 const AppointmentsPage = async () => {
   const session = await auth.api.getSession({
@@ -29,12 +30,19 @@ const AppointmentsPage = async () => {
     redirect("/clinic-form");
   }
 
-  const [patients, doctors] = await Promise.all([
+  const [patients, doctors, appointments] = await Promise.all([
     db.query.patientsTable.findMany({
       where: eq(patientsTable.clinicId, session.user.clinic.id),
     }),
     db.query.doctorsTable.findMany({
       where: eq(doctorsTable.clinicId, session.user.clinic.id),
+    }),
+    db.query.appointmentsTable.findMany({
+      where: eq(appointmentsTable.clinic_id, session.user.clinic.id),
+      with: {
+        patient: true,
+        doctor: true,
+      },
     }),
   ]);
 
@@ -52,10 +60,11 @@ const AppointmentsPage = async () => {
         </PageActions>
       </PageHeader>
       <PageContent>
-        {/* TODO: Listagem de agendamentos será implementada posteriormente */}
-        <div className="text-center text-muted-foreground py-8">
-          Listagem de agendamentos será implementada em breve
-        </div>
+        <AppointmentsDataTable
+          appointments={appointments}
+          patients={patients}
+          doctors={doctors}
+        />
       </PageContent>
     </PageContainer>
   );
