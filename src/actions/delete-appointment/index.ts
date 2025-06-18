@@ -2,7 +2,7 @@
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import z from "zod";
+import { z } from "zod/v4";
 
 import db from "@/db";
 import { appointmentsTable } from "@/db/schema";
@@ -33,6 +33,8 @@ export const DeleteAppointment = actionClient
       throw new Error(
         "Usuário não pertence à clínica ao qual este agendamento está vinculado."
       );
-    await db.delete(appointmentsTable).where(eq(appointmentsTable.id, parsedInput.id));
+    await db
+      .delete(appointmentsTable)
+      .where(eq(appointmentsTable.id, parsedInput.id));
     revalidatePath("/appointments");
   });

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const upsertPatientSchema = z.object({
   id: z.string().uuid().optional(),
@@ -12,7 +12,7 @@ export const upsertPatientSchema = z.object({
     message: "Número de telefone é obrigatório.",
   }),
   gender: z.enum(["male", "female", "other"], {
-    required_error: "Gênero é obrigatório.",
+    message: "Gênero é obrigatório.",
   }),
 });
 

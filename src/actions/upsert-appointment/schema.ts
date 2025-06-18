@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const upsertAppointmentSchema = z.object({
   id: z.string().uuid().optional(),
@@ -12,7 +12,7 @@ export const upsertAppointmentSchema = z.object({
     message: "Preço da consulta é obrigatório.",
   }),
   date: z.date({
-    required_error: "Data é obrigatória.",
+    message: "Data é obrigatória.",
   }),
   time: z.string().min(1, {
     message: "Horário é obrigatório.",
