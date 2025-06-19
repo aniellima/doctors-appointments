@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import dayjs from "dayjs";
@@ -12,6 +13,7 @@ import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { getAvailableTimes } from "@/actions/get-available-times";
 import { upsertAppointment } from "@/actions/upsert-appointment";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -94,6 +96,17 @@ export const UpsertAppointmentForm = ({
 
   const selectedPatientId = form.watch("patientId");
   const selectedDoctorId = form.watch("doctorId");
+  const selectedDate = form.watch("date");
+
+  const { data: availableTimes } = useQuery({
+    queryKey: ["available-times", selectedDoctorId, selectedDate],
+    queryFn: () =>
+      getAvailableTimes({
+        date: dayjs(selectedDate).format("YYYY-MM-DD"),
+        doctorId: selectedDoctorId,
+      }),
+    enabled: !!selectedDoctorId && !!selectedDate,
+  });
 
   // Atualizar o preço quando o médico for selecionado
   useEffect(() => {
@@ -148,6 +161,19 @@ export const UpsertAppointmentForm = ({
       id: appointment?.id,
       appointmentPriceInCents: values.appointmentPrice * 100,
     });
+  };
+
+  const isDateAvailable = (date: Date) => {
+    if (!selectedDoctorId) return false;
+    const selectedDoctor = doctors.find(
+      (doctor) => doctor.id === selectedDoctorId
+    );
+    if (!selectedDoctor) return false;
+    const dayOfWeek = date.getDay();
+    return (
+      dayOfWeek >= selectedDoctor?.availableFromWeekDay &&
+      dayOfWeek <= selectedDoctor?.availableToWeekDay
+    );
   };
 
   const isDateTimeEnabled = selectedPatientId && selectedDoctorId;
@@ -274,7 +300,9 @@ export const UpsertAppointmentForm = ({
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) => date < new Date()}
+                      disabled={(date) =>
+                        date < new Date() || !isDateAvailable(date)
+                      }
                       initialFocus
                       locale={ptBR}
                     />
@@ -294,7 +322,7 @@ export const UpsertAppointmentForm = ({
                 <Select
                   onValueChange={field.onChange}
                   value={field.value}
-                  disabled={!isDateTimeEnabled}
+                  disabled={!isDateTimeEnabled || !selectedDate}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -302,15 +330,15 @@ export const UpsertAppointmentForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* TODO: Implementar horários disponíveis baseados no médico selecionado */}
-                    <SelectItem value="08:00">08:00</SelectItem>
-                    <SelectItem value="09:00">09:00</SelectItem>
-                    <SelectItem value="10:00">10:00</SelectItem>
-                    <SelectItem value="11:00">11:00</SelectItem>
-                    <SelectItem value="14:00">14:00</SelectItem>
-                    <SelectItem value="15:00">15:00</SelectItem>
-                    <SelectItem value="16:00">16:00</SelectItem>
-                    <SelectItem value="17:00">17:00</SelectItem>
+                    {availableTimes?.data?.map((time) => (
+                      <SelectItem
+                        key={time.value}
+                        value={time.value}
+                        disabled={!time.available}
+                      >
+                        {time.label} {!time.available && "(indisponível)"}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
