@@ -1,5 +1,6 @@
 "use client";
 import { EditIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,7 +18,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-// import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -47,6 +47,8 @@ export const AppointmentTableActions = ({
   patients,
   doctors,
 }: AppointmentTableActionsProps) => {
+  const router = useRouter();
+
   const [upsertDialogIsOpen, setupsertDialogIsOpen] = useState(false);
   const [deleteDialogIsOpen, setDeleteDialogIsOpen] = useState(false);
 
@@ -54,6 +56,7 @@ export const AppointmentTableActions = ({
     onSuccess: () => {
       toast.success("Agendamento excluído com sucesso!");
       setDeleteDialogIsOpen(false);
+      router.refresh();
     },
     onError: () => {
       toast.error("Erro ao deletar agendamento.");

@@ -1,6 +1,5 @@
 "use server";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { z } from "zod/v4";
 
@@ -36,6 +35,5 @@ export const DeleteAppointment = actionClient
     await db
       .delete(appointmentsTable)
       .where(eq(appointmentsTable.id, parsedInput.id));
-    revalidatePath("/appointments");
     return { success: true };
   });
