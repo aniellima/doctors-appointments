@@ -151,10 +151,18 @@
   - criar handleDeletePatientClick para executar a action de delete com o id do patient
   - renderizar o AlertDialog dentro de DropdownMenuItem. **Obs.:** para impedir que o click feche o dropdown adiciona-se o `onSelect={(e) => e.preventDefault()}`
 - [x] Atualização de pacientes
-- [] Criação de agendamentos
-- [] Proteger página de agendamentos(autenticação)
-- [] Listagem de agendamentos
-- [] Deleção de agendamentos
+- [x] Criação de agendamentos
+- [x] Proteger página de agendamentos(autenticação)
+- [x] Listagem de agendamentos
+- [x] Deleção de agendamentos
+
+## Dashboard
+
+- [] Complementar
+  - Utiliza componente (Date Range Picker)[https://date-range-picker-for-shadcn-demo.vercel.app/].
+  - Utilizar biblioteca Nuqs para state url. Uma espécie de useSate, mas para a url. Armazenaremos o valor de data range na url.
+  - Compreender a url como uma variavel global, já que temos acesso a ela em qualquer componente.
+  - Seguir o passa-a-passo para o uso do (Nuqs)[https://www.npmjs.com/package/nuqs].
 
 ## Atualizar dependencias
 
