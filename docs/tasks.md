@@ -168,6 +168,7 @@
 
 - [x] Instala globalmente `pnpm install -g npm-check-updates` [documentacao](https://www.npmjs.com/package/npm-check-updates)
 - [x] Na pasta do projeto roda `npm-check-updates -i` e escolhe as bibliotecas que deseja atualizar
+- [ ] Criaçao de cards do dashboard, conforme Figma.
 
 ## Ajustar Bugs:
 
