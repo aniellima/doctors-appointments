@@ -15,8 +15,8 @@ import db from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-import { AddAppointmentButton } from "./components/add-appointment-button";
-import { AppointmentsDataTable } from "./components/appointments-data-table";
+import { AddAppointmentButton } from "./_components/add-appointment-button";
+import { AppointmentsDataTable } from "./_components/appointments-data-table";
 
 const AppointmentsPage = async () => {
   const session = await auth.api.getSession({

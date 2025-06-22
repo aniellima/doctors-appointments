@@ -16,8 +16,8 @@ import db from "@/db";
 import { patientsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-import { AddPatientButton } from "./components/add-patient-button";
-import { patientTableColumns } from "./components/patient-table-columns";
+import { AddPatientButton } from "./_components/add-patient-button";
+import { patientTableColumns } from "./_components/patient-table-columns";
 
 const PatientsPage = async () => {
   const session = await auth.api.getSession({
