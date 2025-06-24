@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
 import {
   PageActions,
   PageContainer,
@@ -140,8 +139,8 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     db.query.appointmentsTable.findMany({
       where: and(
         eq(appointmentsTable.clinicId, session.user.clinic.id),
-        gte(appointmentsTable.date, new Date()),
-        lte(appointmentsTable.date, new Date())
+        gte(appointmentsTable.date, dayjs().startOf("day").toDate()),
+        lte(appointmentsTable.date, dayjs().endOf("day").toDate())
       ),
       with: {
         patient: true,
@@ -216,7 +215,7 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
               </div>
             </CardHeader>
             <CardContent>
-              <AppointmentsDataTable 
+              <AppointmentsDataTable
                 appointments={todayAppointments}
                 patients={patients}
                 doctors={doctors}
