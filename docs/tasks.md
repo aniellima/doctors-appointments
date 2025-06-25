@@ -158,7 +158,7 @@
 
 ## Dashboard
 
-- [] Complementar
+- [x] Complementar
   - Utiliza componente (Date Range Picker)[https://date-range-picker-for-shadcn-demo.vercel.app/].
   - Utilizar biblioteca Nuqs para state url. Uma espécie de useSate, mas para a url. Armazenaremos o valor de data range na url.
   - Compreender a url como uma variavel global, já que temos acesso a ela em qualquer componente.
@@ -172,5 +172,5 @@
 
 ## Ajustar Bugs:
 
-- [] ajustar eschema para garantir que a exclusão de médicos seja possível, mesmo com agendamentos(Delete on Cascade)
-- [] ajustar eschema para garantir que a exclusão de médicos seja possível, mesmo com agendamentos(Delete on Cascade)
+- [] ajustar schema para garantir que a exclusão de médicos seja possível, mesmo com agendamentos(Delete on Cascade)
+- [] ajustar schema para garantir que a exclusão de pacientes seja possível, mesmo com agendamentos(Delete on Cascade)
